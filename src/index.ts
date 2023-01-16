@@ -38,8 +38,13 @@ class LogStreamWrapper extends Writable {
         this.lineSeparator = lineSeparator;
     }
 
-    _write(chunk: any, encoding: BufferEncoding, callback: Function) {
-        const decoded: string = chunk.toString(encoding);
+    _write(
+        chunk: any,
+        encoding: BufferEncoding | "buffer",
+        callback: Function
+    ) {
+        const decoded: string =
+            encoding === "buffer" ? chunk.toString() : chunk.toString(encoding);
 
         if (!this.splitLines) {
             this.logger.log(this.level, decoded);
