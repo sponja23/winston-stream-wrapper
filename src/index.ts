@@ -1,4 +1,4 @@
-import { Writable } from "stream";
+import { Writable, WritableOptions } from "stream";
 import { Logger } from "winston";
 
 type LogStreamWrapperOptions = {
@@ -6,7 +6,7 @@ type LogStreamWrapperOptions = {
     splitLines?: boolean;
     skipEmptyLines?: boolean;
     lineSeparator?: string;
-};
+} & Exclude<WritableOptions, "write">;
 
 /**
  * A stream that writes to the logger.
@@ -25,9 +25,10 @@ class LogStreamWrapper extends Writable {
             splitLines = true,
             skipEmptyLines = true,
             lineSeparator = "\n",
+            ...streamOptions
         }: LogStreamWrapperOptions
     ) {
-        super();
+        super(streamOptions);
 
         this.logger = logger;
 
@@ -44,7 +45,7 @@ class LogStreamWrapper extends Writable {
         callback: Function
     ) {
         const decoded: string =
-            encoding === "buffer" ? chunk.toString() : chunk.toString(encoding);
+            encoding !== "buffer" ? chunk.toString(encoding) : chunk.toString();
 
         if (!this.splitLines) {
             this.logger.log(this.level, decoded);
