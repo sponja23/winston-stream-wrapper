@@ -40,9 +40,10 @@ class LogStreamWrapper extends Writable {
     }
 
     _write(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         chunk: any,
         encoding: BufferEncoding | "buffer",
-        callback: Function
+        callback: (error?: Error | null) => void
     ) {
         const decoded: string =
             encoding !== "buffer" ? chunk.toString(encoding) : chunk.toString();
