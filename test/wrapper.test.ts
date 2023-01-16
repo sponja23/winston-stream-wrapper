@@ -1,5 +1,8 @@
 import { transcode, TranscodeEncoding } from "buffer";
+import { fork, spawn } from "child_process";
+
 import { mock } from "jest-mock-extended";
+import path from "path";
 import { Logger } from "winston";
 
 import LogStreamWrapper from "../src/index";
@@ -172,5 +175,71 @@ describe("Split lines tests", () => {
         wrapper.write("foo\n\n\nbar\n\nbaz");
 
         expectLogs(logger, "info", ["foo", "", "", "bar", "", "baz"]);
+    });
+});
+
+describe("Subprocess tests", () => {
+    it("logs subprocess stdout correctly", async () => {
+        const logger = mock<Logger>();
+        const wrapper = new LogStreamWrapper(logger, {
+            level: "info",
+            splitLines: true,
+        });
+
+        const message = "foo";
+        const count = 100;
+
+        const child = spawn(
+            "node -e 'for (let i = 0; i < +process.argv[1]; i++) console.log(`${i}: ${process.argv[2]}`)'",
+            [count.toString(), message],
+            {
+                shell: true,
+                stdio: "pipe",
+            }
+        );
+
+        child.stdout!.pipe(wrapper);
+
+        await new Promise((resolve) => {
+            child.on("exit", resolve);
+        });
+
+        expectLogs(
+            logger,
+            "info",
+            Array.from({ length: count }, (_, i) => `${i}: ${message}`)
+        );
+    });
+
+    it("logs subprocess stderr correctly", async () => {
+        const logger = mock<Logger>();
+        const wrapper = new LogStreamWrapper(logger, {
+            level: "error",
+            splitLines: true,
+        });
+
+        const message = "foo";
+        const count = 100;
+
+        const child = spawn(
+            "node -e 'for (let i = 0; i < +process.argv[1]; i++) console.error(`${i}: ${process.argv[2]}`)'",
+            [count.toString(), message],
+            {
+                shell: true,
+                stdio: "pipe",
+            }
+        );
+
+        child.stderr!.pipe(wrapper);
+
+        await new Promise((resolve) => {
+            child.on("exit", resolve);
+        });
+
+        expectLogs(
+            logger,
+            "error",
+            Array.from({ length: count }, (_, i) => `${i}: ${message}`)
+        );
     });
 });
