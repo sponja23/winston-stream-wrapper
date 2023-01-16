@@ -1,8 +1,7 @@
 import { transcode, TranscodeEncoding } from "buffer";
-import { fork, spawn } from "child_process";
+import { spawn } from "child_process";
 
 import { mock } from "jest-mock-extended";
-import path from "path";
 import { Logger } from "winston";
 
 import LogStreamWrapper from "../src/index";

@@ -1,15 +1,15 @@
 import { Writable, WritableOptions } from "stream";
 import { Logger } from "winston";
 
-type LogStreamWrapperOptions = {
+interface LogStreamWrapperOptions extends Exclude<WritableOptions, "write"> {
     level: string;
     splitLines?: boolean;
     skipEmptyLines?: boolean;
     lineSeparator?: string;
-} & Exclude<WritableOptions, "write">;
+}
 
 /**
- * A stream that writes to the logger.
+ * A stream that writes to a winston logger.
  */
 class LogStreamWrapper extends Writable {
     private logger: Logger;
