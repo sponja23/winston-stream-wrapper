@@ -4,6 +4,7 @@
     "description": "A streamable wrapper for Winston loggers",
     "main": "dist/index.js",
     "scripts": {
+        "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -22,8 +23,8 @@
     },
     "homepage": "https://github.com/sponja23/winston-stream-wrapper#readme",
     "peerDependencies": {
-        "winston": ">=3.0.0",
-        "typescript": "*"
+        "typescript": "*",
+        "winston": ">=3.0.0"
     },
     "peerDependenciesMeta": {
         "typescript": {
@@ -31,6 +32,8 @@
         }
     },
     "devDependencies": {
-        "prettier": "^2.8.3"
+        "@types/node": "^18.11.18",
+        "prettier": "^2.8.3",
+        "winston": "^3.8.2"
     }
 }
