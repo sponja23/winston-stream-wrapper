@@ -2,9 +2,28 @@ import { Writable, WritableOptions } from "stream";
 import { Logger } from "winston";
 
 interface LogStreamWrapperOptions extends Exclude<WritableOptions, "write"> {
+    /**
+     * The level to log messages at.
+     */
     level: string;
+
+    /**
+     * Whether to split the stream's input into separate log messages on newlines.
+     * If `false`, every chunk of data will be logged as a single log message.
+     * Defaults to `true`.
+     */
     splitLines?: boolean;
+
+    /**
+     * Whether to skip empty lines when `splitLines` is `true`.
+     * Defaults to `true`.
+     */
     skipEmptyLines?: boolean;
+
+    /**
+     * The line separator to use when `splitLines` is `true`.
+     * Defaults to `\n`.
+     */
     lineSeparator?: string;
 }
 

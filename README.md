@@ -1,6 +1,6 @@
 # winston-stream-wrapper
 
-This package provides a type-safe wrapper for [`winston`](https://github.com/winstonjs/winston) `Logger` instances that allows them to easily be used as a [Node.js `WritableStream`](https://nodejs.org/api/stream.html).
+This package provides a type-safe wrapper for [winston](https://github.com/winstonjs/winston) `Logger` instances that allows them to easily be used as a [Node.js `WritableStream`](https://nodejs.org/api/stream.html).
 
 ## Motivation
 
@@ -17,6 +17,7 @@ npm install winston-stream-wrapper
 The following example shows how to pipe a subprocess' `stdout` and `stderr` to a `Logger` instance:
 
 ```ts
+import { spawn } from "child_process";
 import { createLogger, format, transports } from 'winston';
 
 import LogStreamWrapper from 'winston-stream-wrapper';
@@ -64,34 +65,10 @@ class LogStreamWrapper extends Writable {
 
 The `LogStreamWrapper` constructor takes an options object with the following properties:
 
-```ts
-// WritableOptions includes default options for the WritableStream class.
-interface LogStreamWrapperOptions extends WritableOptions {
-    /**
-     * The level to log messages at.
-     */
-    level: string;
-
-    /**
-     * Whether to split the stream's input into separate log messages on newlines.
-     * If `false`, every chunk of data will be logged as a single log message.
-     * Defaults to `true`.
-     */
-    splitLines: boolean;
-
-    /**
-     * Whether to skip empty lines when `splitLines` is `true`.
-     * Defaults to `true`.
-     */
-    skipEmptyLines: boolean;
-
-    /**
-     * The line separator to use when `splitLines` is `true`.
-     * Defaults to `\n`.
-     */
-    lineSeparator: string;
-}
-```
+* `level`: The level to log messages at.
+* `splitLines`: Whether to split the stream's input into separate log messages on newlines. If `false`, every chunk of data will be logged as a single log message. Defaults to `true`.
+* `skipEmptyLines`: Whether to skip empty lines when `splitLines` is `true`. Defaults to `true`.
+* `lineSeparator`: The line separator to use when `splitLines` is `true`. Defaults to `\n`.
 
 ## Issues
 
