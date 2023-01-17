@@ -1,5 +1,9 @@
 # winston-stream-wrapper
 
+[![npm](https://img.shields.io/npm/v/winston-stream-wrapper)](https://www.npmjs.com/package/winston-stream-wrapper)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/sponja23/winston-stream-wrapper/build.yml?branch=main)
+[![codecov](https://codecov.io/gh/sponja23/winston-stream-wrapper/branch/main/graph/badge.svg?token=YYCQZM57DY)](https://codecov.io/gh/sponja23/winston-stream-wrapper)
+
 This package provides a type-safe wrapper for [winston](https://github.com/winstonjs/winston) `Logger` instances that allows them to easily be used as a [Node.js `WritableStream`](https://nodejs.org/api/stream.html).
 
 ## Motivation
