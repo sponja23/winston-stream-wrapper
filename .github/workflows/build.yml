@@ -9,13 +9,14 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v3
     
     - name: Setup pnpm
       uses: pnpm/action-setup@v2.2.4
+      with:
+        version: 7.18.2
 
     - name: Install dependencies
       run: pnpm install
