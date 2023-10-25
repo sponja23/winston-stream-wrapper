@@ -1,6 +1,6 @@
 {
     "name": "winston-stream-wrapper",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A streamable wrapper for Winston loggers",
     "main": "dist/index.js",
     "scripts": {
